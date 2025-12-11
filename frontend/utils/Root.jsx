@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import {useAuth} from "../../context/authContext.jsx"
+import {useAuth} from "../context/authContext.jsx"
+import { useNavigate } from "react-router";
 
 
 const Root = ()=>{
     const {user} = useAuth();
-    const navigate = useNavigate();
+    const navigate = useNavigate;
     useEffect(()=>{
         if(user){
             // check user is authenticated and redirect accordingly
