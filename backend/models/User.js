@@ -19,11 +19,20 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'user'],
-        default: 'user'
-    }
+        enum: ['admin', 'storeManager', 'departmentHead', 'universityAuth', 'staffMember'],
+        default: 'staffMember'
+    },
+    universityID: {
+        type: String,
+        unique: true,
+        sparse: true
+    },
+    department: {
+        type: String,
+        default: "General"
+    },
 
 });
 
-const user = mongoose.model("user", userSchema);
-export default user;
+const User = mongoose.model("user", userSchema);
+export default User;
