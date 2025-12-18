@@ -4,8 +4,11 @@ import ViewUser from './ViewUser.jsx';
 import AddUser from './AddUser.jsx';
 import UpdateUser from './UpdateUser.jsx';
 import DeleteUser from './DeleteUser.jsx';
+import {useAuth} from "../../../context/authContext.jsx";
+import { FaCalendarCheck, FaRing, FaArrowDown } from 'react-icons/fa';
 
 const UserManagement = () => {
+  const {user} = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,11 +37,33 @@ const UserManagement = () => {
 
   return (
     <div>
-      <div className='bg-green-600/90 text-white flex justify-between p-3 m-6 rounded-lg'>
+      <div className="px-7 flex justify-between items-center mb-12 mt-6">
+          <div>
+            <h1 className="text-xl font-bold">Dashboard</h1>
+            <p className="text-sm text-gray-600">
+              <span className="text-green-600 font-semibold">Monday</span> · 02 March 2025
+            </p>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <FaCalendarCheck className="text-xl text-gray-600 cursor-pointer" />
+            <FaRing className="text-xl text-gray-600 cursor-pointer" />
+
+            <div className="flex items-center gap-2 cursor-pointer">
+              <span className="bg-green-600 text-white px-3 py-1 rounded-lg font-bold">
+                BY
+              </span>
+              <span className="font-medium">Beneyam Yohannes</span>
+              <FaArrowDown className="text-gray-600" />
+            </div>
+          </div>
+        </div>
+
+      <div className='bg-green-200 text-gray-700 flex justify-between p-3 m-6 rounded-lg'>
         <div className='flex align-center just'>
             <h1 className='font-bold text-xl'>User Administration</h1>
         </div>
-        <div className='flex gap-4'>
+        <div className='flex gap-4 font-semibold'>
           {['view', 'add', 'update', 'delete'].map(tab => (
             <button
               key={tab}

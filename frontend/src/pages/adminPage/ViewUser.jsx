@@ -63,7 +63,7 @@ const mockUsers = [
     <div>
       <div className="bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-100">
   <table className="min-w-full divide-y divide-gray-200">
-    <thead className="bg-green-100 text-neutral-500 font-bold shadow-md">
+    <thead className="bg-gray-700 text-white font-bold shadow-md">
       <tr>
         <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
           Name

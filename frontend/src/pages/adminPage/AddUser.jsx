@@ -17,7 +17,7 @@ const AddUser = ({ onUserAdded }) => {
   const [error, setError] = useState(null);
 
   const roles = ['admin', 'storeManager', 'departmentHead', 'universityAuth', 'staffMember'];
-  const departments = ['General', 'IT', 'HR', 'Finance', 'Marketing'];
+  const departments = ['General','Computer Science', 'Information Technology', 'Information System', 'Software Engineering',  'Information Science'];
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

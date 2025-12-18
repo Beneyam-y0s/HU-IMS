@@ -77,7 +77,7 @@ const UpdateUser = ({ onUserUpdated }) => {
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md ">
       <h2 className="text-2xl font-bold mb-4">Update User</h2>
 
       {message && <div className="bg-green-100 text-green-800 p-2 mb-4 rounded">{message}</div>}
@@ -88,7 +88,7 @@ const UpdateUser = ({ onUserUpdated }) => {
         <select
           value={selectedUserId}
           onChange={handleSelectUser}
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border px-3 py-2 rounded "
         >
           <option value="">-- Select --</option>
           {users.map(user => (

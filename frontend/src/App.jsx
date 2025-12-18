@@ -9,9 +9,9 @@ import StoreManager from "./pages/store Manager/StoreManager.jsx";
 import StaffDashboard from "./pages/staffMembers/Dashboard.jsx"
 import Home from "./pages/staffMembers/Home.jsx"
 import About from "./pages/staffMembers/About.jsx"
-import Profile from "./pages/staffMembers/StaffProfile.jsx";
+import Profile from "./components/Profile.jsx";
 import ContactUs from "./pages/staffMembers/ContactUs.jsx";
-import Logout from "./pages/staffMembers/Logout.jsx";
+import Logout from "./components/Logout.jsx";
 import ProtectedRoutes from "../utils/ProtectedRoutes.jsx";
 function App() {
  
@@ -50,11 +50,11 @@ function App() {
               </Route>
               <Route
                 path="profile"
-                element={<h1>Profile</h1>}
+                element={<Profile />}
               />
               <Route
                 path="logout"
-                element={<h1>logout</h1>}
+                element={<Logout />}
               />
           </Route>
 
@@ -111,12 +111,43 @@ function App() {
                 element={<h1>Supplires</h1>}
               />
               <Route
-                path="orders"
-                element={<h1>orders</h1>}
+                path="profile"
+                element={<Profile />}
               />
               <Route
-                path="users"
-                element={<UserManagement />}
+                path="logout"
+                element={<Logout />}
+              />
+
+          </Route>
+
+
+          <Route 
+            path="/departmentHead/dashboard" 
+            element={
+              <ProtectedRoutes requireRole={["departmentHead"]}>
+                <Dashboard />
+              </ProtectedRoutes>}>
+
+              <Route
+                path="categories"
+                element={<h1>categories</h1>}
+              />
+              <Route
+                path="products"
+                element={<h1>product</h1>}
+              />
+              <Route
+                path="suppliers"
+                element={<h1>Supplires</h1>}
+              />
+              <Route
+                path="profile"
+                element={<Profile />}
+              />
+              <Route
+                path="logout"
+                element={<Logout />}
               />
 
           </Route>

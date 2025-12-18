@@ -1,10 +1,12 @@
 import React from "react";
+import { useAuth } from "../../../context/authContext.jsx";
 import {
     FaCalendarCheck,
     FaRing,
     FaArrowDown,
 } from "react-icons/fa";
 const ContactUs = () => {
+    const { user } = useAuth();
   return (
     <div className=" px-2">
         <div className="flex justify-between items-center mb-12 mt-6">
@@ -72,6 +74,7 @@ const ContactUs = () => {
               type="text"
               className="w-full mt-1 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               placeholder="Enter your name"
+              value={user?.name || ""}
             />
           </div>
 
@@ -81,6 +84,7 @@ const ContactUs = () => {
               type="email"
               className="w-full mt-1 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               placeholder="Enter your email"
+              value={user.email}
             />
           </div>
 
