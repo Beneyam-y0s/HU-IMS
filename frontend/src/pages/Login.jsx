@@ -30,7 +30,13 @@ const Login = () => {
 
         if (response.data.user.role === "admin") {
           navigate("/admin/dashboard");
-        } else {
+        }else if (response.data.user.role === "storeManager") {
+          navigate("/storeManager/dashboard");
+        }else if (response.data.user.role === "departmentHead") {
+          navigate("/departmentHead/dashboard");
+        }else if (response.data.user.role === "universityAuth") {
+          navigate("/universityAuth/dashboard");
+        }else {
           navigate("/customer/dashboard");
         }
       } else {

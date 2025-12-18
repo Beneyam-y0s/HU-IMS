@@ -17,8 +17,8 @@ const ProtectedRoutes = ({children, requireRole}) => {
         }
     }, [user, navigate, requireRole]);
 
-    if(!user) return null;
-    if(!requireRole.includes(user.role)) return null;
+    if(!user) navigate("/login");
+    if(!requireRole.includes(user.role)) navigate("/login");;
 
     return children;
 };

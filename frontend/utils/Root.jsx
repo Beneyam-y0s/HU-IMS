@@ -11,8 +11,12 @@ const Root = ()=>{
             // check user is authenticated and redirect accordingly
             if(user.role === 'admin'){
                 navigate('/admin/dashboard');
-            }else if(user.role === 'employee'){
-                navigate('/employee/dashboard');
+            }else if(user.role === 'storeManager'){
+                navigate('/storeManager/dashboard');
+            }else if(user.role === 'departmentHead'){
+                navigate('/departmentHead/dashboard');
+            }else if(user.role === 'universityAuth'){
+                navigate('/universityAuth/dashboard');
             }else{
                 navigate('/login');
             }
