@@ -6,25 +6,26 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // find user
+        // 1. Find user
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
 
-        // compare password
+        // 2. Compare password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
 
-        // create token
+        // 3. Create token
         const token = jwt.sign(
             { userId: user._id, role: user.role },
             process.env.JWT_SECRET,
             { expiresIn: '2d' }
         );
 
+        // 4. Return all model fields (except password)
         return res.status(200).json({
             success: true,
             message: "Login successful",
@@ -33,7 +34,10 @@ const login = async (req, res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                address: user.address,
+                universityID: user.universityID, // Matches your Schema
+                department: user.department      // Matches your Schema
             }
         });
 
@@ -43,4 +47,4 @@ const login = async (req, res) => {
     }
 };
 
-export {login};
+export { login };

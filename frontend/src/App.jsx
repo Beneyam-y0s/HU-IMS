@@ -38,12 +38,8 @@ function App() {
                 element={<Product />}
               />
               <Route
-                path="suppliers"
-                element={<h1>Supplires</h1>}
-              />
-              <Route
-                path="orders"
-                element={<h1>orders</h1>}
+                path="requests"
+                element={<h1>request</h1>}
               />
               <Route
                 path="users"
@@ -62,36 +58,37 @@ function App() {
           </Route>
 
          <Route
-          path="customer/dashboard"
-          element={
-            <ProtectedRoutes requireRole={["staffMember"]}>
-              <StaffDashboard />
-            </ProtectedRoutes>
-            
-          }>
-          <Route 
-              path="request"
-              element={<Request />}
-          />
-          <Route 
-              path="home"
-              element={<Home />}
-          />
-          <Route 
-              path="about"
-              element={<About />}
-          />
-          <Route 
-              path="profile"
-              element={<Profile />}
-          />
-          <Route 
-              path="contact"
-              element={<ContactUs />}
-          />
-          
-          <Route path="logout" element={<Logout />} />
-
+            path="customer/dashboard"
+            element={
+              <ProtectedRoutes requireRole={["staffMember"]}>
+                <StaffDashboard />
+              </ProtectedRoutes>
+              
+            }>
+            <Route 
+                path="request"
+                element={<Request />}
+            />
+            <Route 
+                path="home"
+                element={<Home />}
+            />
+            <Route 
+                path="about"
+                element={<About />}
+            />
+            <Route 
+                path="profile"
+                element={<Profile />}
+            />
+            <Route 
+                path="contact"
+                element={<ContactUs />}
+            />
+            <Route 
+              path="logout" 
+              element={<Logout />} 
+            />
          </Route>
 
        
@@ -114,8 +111,8 @@ function App() {
                 element={<Product />}
               />
               <Route
-                path="suppliers"
-                element={<h1>Supplires</h1>}
+                path="requests"
+                element={<h1>requests</h1>}
               />
               <Route
                 path="profile"
@@ -135,18 +132,13 @@ function App() {
               <ProtectedRoutes requireRole={["departmentHead"]}>
                 <Dashboard />
               </ProtectedRoutes>}>
-
-              <Route
-                path="categories"
-                element={<h1>categories</h1>}
-              />
               <Route
                 path="products"
                 element={<h1>product</h1>}
               />
               <Route
-                path="suppliers"
-                element={<h1>Supplires</h1>}
+                path="requests"
+                element={<h1>requests</h1>}
               />
               <Route
                 path="profile"

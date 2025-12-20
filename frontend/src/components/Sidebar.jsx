@@ -27,7 +27,7 @@ const Sidebar = () => {
       name: "Dashboard",
       path: "/dashboard",
       icon: <FaHome />,
-      roles: ["admin", "storeManager"],
+      roles: ["admin", "storeManager", "departmentHead", "universityAuth"],
       isParent: true,
     },
     {
@@ -52,10 +52,10 @@ const Sidebar = () => {
       roles: ["admin", "storeManager", "departmentHead", "universityAuth"],
     },
     {
-      name: "Orders",
-      path: "/dashboard/orders",
+      name: "Requests",
+      path: "/dashboard/requests",
       icon: <FaShoppingCart />,
-      roles: ["admin", "storeManager"],
+      roles: ["admin", "storeManager", "departmentHead", "universityAuth"],
     },
     {
       name: "Profile",

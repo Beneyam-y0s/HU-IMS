@@ -2,11 +2,14 @@ import Request from "../models/Request.js";
 
 export const requestController = async (req, res) => {
   try {
-    const {name, email, department, category, specificItem, description } = req.body;
+    // 1. Added universityID to the destructured body
+    const { name, email, universityID, department, category, specificItem, description } = req.body;
 
+    // 2. Pass universityID into the new Request object
     const newRequest = new Request({
       name,
       email,
+      universityID, // <--- Add this
       department,
       category,
       specificItem,

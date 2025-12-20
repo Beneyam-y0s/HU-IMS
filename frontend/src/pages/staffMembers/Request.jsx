@@ -5,11 +5,7 @@ import { useAuth } from "../../../context/authContext.jsx";
 const Request = () => {
   const { user } = useAuth();
 
-  
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    department: "", 
     category: "",
     item: "",
     description: "",
@@ -32,33 +28,22 @@ const Request = () => {
     setError(null);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/requests",
-        {
-          name: user?.name || "",                         
-          email: user?.email || "",                         
-          department: user?.department || "",                          
-          category: formData.category.toLowerCase(), 
-          specificItem: formData.item,            
-          description: formData.description,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      // Map context data + form data to the backend payload
+      const payload = {
+        name: user?.name,
+        email: user?.email,
+        universityID: user?.universityID, // Match capital "ID" from backend
+        department: user?.department,
+        category: formData.category.toLowerCase(),
+        specificItem: formData.item,
+        description: formData.description,
+      };
+
+      await axios.post("http://localhost:5000/api/requests", payload);
 
       setMessage("Request created successfully!");
-
-      setFormData({
-        category: "",
-        item: "",
-        description: "",
-      });
-
+      setFormData({ category: "", item: "", description: "" });
     } catch (err) {
-      console.error("Request error:", err);
       setError(err.response?.data?.message || "Failed to create request");
     } finally {
       setLoading(false);
@@ -67,67 +52,32 @@ const Request = () => {
 
   return (
     <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-green-700">
-        Create Request
-      </h2>
+      <h2 className="text-2xl font-bold mb-4 text-green-700">Create Request</h2>
 
-      {message && (
-        <div className="bg-green-100 text-green-800 p-2 mb-4 rounded">
-          {message}
-        </div>
-      )}
-
-      {error && (
-        <div className="bg-red-100 text-red-800 p-2 mb-4 rounded">
-          {error}
-        </div>
-      )}
+      {message && <div className="bg-green-100 text-green-800 p-2 mb-4 rounded">{message}</div>}
+      {error && <div className="bg-red-100 text-red-800 p-2 mb-4 rounded">{error}</div>}
 
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-
-        {/* Name */}
+        {/* Read-Only User Info from Context */}
         <div>
-          <label className="block mb-1 font-medium">Request Name</label>
-          <input
-            type="text"
-            value={user?.name || ""}
-            disabled
-            className="w-full border px-3 py-2 rounded bg-gray-100"
-          />
+          <label className="block mb-1 font-medium">Requestor Name</label>
+          <input type="text" value={user?.name || ""} disabled className="w-full border px-3 py-2 rounded bg-gray-100" />
         </div>
 
-        {/* Email */}
         <div>
-          <label className="block mb-1 font-medium">Request Email</label>
-          <input
-            type="email"
-            value={user?.email || ""}
-            disabled
-            className="w-full border px-3 py-2 rounded bg-gray-100"
-          />
+          <label className="block mb-1 font-medium">University ID</label>
+          <input type="text" value={user?.universityID || "N/A"} disabled className="w-full border px-3 py-2 rounded bg-gray-100" />
         </div>
 
-        {/* Department */}
         <div>
           <label className="block mb-1 font-medium">Department</label>
-          <input
-            type="text"
-            value={user.department}
-            disabled
-            className="w-full border px-3 py-2 rounded bg-gray-100"
-          />
+          <input type="text" value={user?.department || ""} disabled className="w-full border px-3 py-2 rounded bg-gray-100" />
         </div>
 
-        {/* Category */}
+        {/* Input Fields */}
         <div>
           <label className="block mb-1 font-medium">Category</label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-            className="w-full border px-3 py-2 rounded"
-          >
+          <select name="category" value={formData.category} onChange={handleChange} required className="w-full border px-3 py-2 rounded">
             <option value="">Select category</option>
             {categories.map((cat) => (
               <option key={cat} value={cat}>{cat}</option>
@@ -135,7 +85,6 @@ const Request = () => {
           </select>
         </div>
 
-        {/* Item */}
         <div className="col-span-2">
           <label className="block mb-1 font-medium">Specific Item</label>
           <input
@@ -145,11 +94,10 @@ const Request = () => {
             onChange={handleChange}
             required
             className="w-full border px-3 py-2 rounded"
-            placeholder="e.g. Dell Laptop, Office Chair"
+            placeholder="e.g. Dell Laptop"
           />
         </div>
 
-        {/* Description */}
         <div className="col-span-2">
           <label className="block mb-1 font-medium">Description</label>
           <textarea
@@ -159,19 +107,16 @@ const Request = () => {
             rows="4"
             required
             className="w-full border px-3 py-2 rounded"
-            placeholder="Explain why you need this item"
           />
         </div>
 
-        {/* Submit */}
         <button
           type="submit"
           disabled={loading}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 col-span-2"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 col-span-2 disabled:bg-gray-400"
         >
           {loading ? "Submitting..." : "Create Request"}
         </button>
-
       </form>
     </div>
   );

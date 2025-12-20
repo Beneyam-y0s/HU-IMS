@@ -7,33 +7,14 @@ import {
   FaEdit
 } from "react-icons/fa";
 import BittomImg from "../assets/An Inventory Management System that is more….jpeg";
+import Navbar from "./Navbar.jsx";
 
 const Profile = () => {
   const { user } = useAuth();
 
   return (
     <div className="px-4">
-      <div className="flex justify-between items-center mb-8 mt-6">
-          <div>
-            <h1 className="text-xl font-bold">MY Profile</h1>
-            <p className="text-sm text-gray-600">
-              <span className="text-green-600 font-semibold">Monday</span> · 02 March 2025
-            </p>
-          </div>
-
-          <div className="flex items-center gap-6">
-            <FaCalendarCheck className="text-xl text-gray-600 cursor-pointer" />
-            <FaRing className="text-xl text-gray-600 cursor-pointer" />
-
-            <div className="flex items-center gap-2 cursor-pointer">
-              <span className="bg-green-600 text-white px-3 py-1 rounded-lg font-bold">
-                BY
-              </span>
-              <span className="font-medium">{user?.name || "N/A"}</span>
-              <FaArrowDown className="text-gray-600" />
-            </div>
-          </div>
-        </div>
+      <Navbar />
       
 
       <div className=" pb-4">
