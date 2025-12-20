@@ -1,42 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // npm install axios
+import {useAuth} from "../../../context/authContext.jsx";
+
 
 const ViewUser = () => {
-const mockUsers = [
-  {
-    _id: '1',
-    name: 'John Doe',
-    email: 'john@example.com',
-    address: '123 Street',
-    role: 'admin',
-    department: 'IT',
-    universityId: 'U001'
-  },
-  {
-    _id: '2',
-    name: 'Jane Smith',
-    email: 'jane@example.com',
-    address: '456 Avenue',
-    role: 'staffMember',
-    department: 'HR',
-    universityId: 'U002'
-  },
-  {
-    _id: '3',
-    name: 'Bob Johnson',
-    email: 'bob@example.com',
-    address: '789 Road',
-    role: 'departmentHead',
-    department: 'Finance',
-    universityId: 'U003'
-  }
-];
+const {user} = useAuth;
 
 
 
-
-
-  const [users, setUsers] = useState([mockUsers]);
+  const [users, setUsers] = useState([user]);
   const [loading, setLoading] = useState(true); // optional, for loading state
   const [error, setError] = useState(null);
 
@@ -65,6 +37,7 @@ const mockUsers = [
   <table className="min-w-full divide-y divide-gray-200">
     <thead className="bg-gray-700 text-white font-bold shadow-md">
       <tr>
+        
         <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
           Name
         </th>
@@ -95,7 +68,7 @@ const mockUsers = [
             {user.email}
           </td>
           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            {user.universityID || 'N/A'}
+            {user.universityIDv || 'N/A'}
           </td>
           <td className="px-6 py-4 whitespace-nowrap">
             {/* Role Badge - Added a simple visual indicator for the role */}

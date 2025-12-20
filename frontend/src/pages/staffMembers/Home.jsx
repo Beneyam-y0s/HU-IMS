@@ -1,5 +1,6 @@
 import React from 'react'
 import BittomImg from "../../assets/An Inventory Management System that is more….jpeg";
+import {useAuth} from "../../../context/authContext.jsx";
 import {
   FaHome,
   FaPlus,
@@ -15,6 +16,7 @@ import {
   FaCog
 } from "react-icons/fa";
 function Home() {
+  const {user} = useAuth();
   return (
     <div className='px-2'>
       <div className="flex justify-between items-center mb-12 mt-6">
@@ -33,7 +35,7 @@ function Home() {
               <span className="bg-green-600 text-white px-3 py-1 rounded-lg font-bold">
                 BY
               </span>
-              <span className="font-medium">Beneyam Yohannes</span>
+              <span className="font-medium">{user.name}</span>
               <FaArrowDown className="text-gray-600" />
             </div>
           </div>
@@ -44,7 +46,7 @@ function Home() {
 
         <div className="bg-green-200/90 rounded-xl px-12 py-4 flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-3xl font-bold">Hi, Beneyam 👋</h2>
+            <h2 className="text-3xl font-bold">Hi, {user?.name || "Beneyam"} 👋</h2>
             <p className="text-gray-700">
               Welcome back to HU Inventory System
             </p>

@@ -12,6 +12,9 @@ import About from "./pages/staffMembers/About.jsx"
 import Profile from "./components/Profile.jsx";
 import ContactUs from "./pages/staffMembers/ContactUs.jsx";
 import Logout from "./components/Logout.jsx";
+import Request from "./pages/staffMembers/Request.jsx";
+import Product from "./pages/store Manager/Product.jsx";
+import Catagory from "./pages/store Manager/Category.jsx";
 import ProtectedRoutes from "../utils/ProtectedRoutes.jsx";
 function App() {
  
@@ -28,11 +31,11 @@ function App() {
               </ProtectedRoutes>}>
               <Route
                 path="categories"
-                element={<h1>categories</h1>}
+                element={<Catagory />}
               />
               <Route
                 path="products"
-                element={<h1>product</h1>}
+                element={<Product />}
               />
               <Route
                 path="suppliers"
@@ -67,6 +70,10 @@ function App() {
             
           }>
           <Route 
+              path="request"
+              element={<Request />}
+          />
+          <Route 
               path="home"
               element={<Home />}
           />
@@ -100,11 +107,11 @@ function App() {
 
               <Route
                 path="categories"
-                element={<h1>categories</h1>}
+                element={<Catagory />}
               />
               <Route
                 path="products"
-                element={<h1>product</h1>}
+                element={<Product />}
               />
               <Route
                 path="suppliers"
@@ -152,10 +159,9 @@ function App() {
 
           </Route>
 
-
+         
           
-          <Route path="/departmentHead/dashboard" element={<h1>Department Head Dashboard</h1>} />
-          <Route path="/universityAuth/dashboard" element={<h1>University Auth Dashboard</h1>} />
+          
           <Route path="/login" element={<Login />} />
           <Route path="/unauthorized" element={<p className="font-bold text-3xl mt-20 ml-20">Unauthorized user</p>} />
         </Routes>

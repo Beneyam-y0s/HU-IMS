@@ -1,87 +1,234 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import ViewUser from './ViewUser.jsx';
-import AddUser from './AddUser.jsx';
-import UpdateUser from './UpdateUser.jsx';
-import DeleteUser from './DeleteUser.jsx';
-import {useAuth} from "../../../context/authContext.jsx";
-import { FaCalendarCheck, FaRing, FaArrowDown } from 'react-icons/fa';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Navbar from "../../components/Navbar.jsx";
 
 const UserManagement = () => {
-  const {user} = useAuth();
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('view');
+  const [newRow, setNewRow] = useState(false);
+  const [editRowId, setEditRowId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    universityId: "",
+    role: "staffMember",
+    department: "General",
+  });
+
+  const roles = ["admin", "storeManager", "departmentHead", "universityAuth", "staffMember"];
+  const departments = [
+    "General",
+    "Information Technology",
+    "Information Science",
+    "Information System",
+    "Computer Science",
+    "Software",
+    "Shared",
+  ];
+
+  // ================= FETCH USERS =================
   const fetchUsers = async () => {
-    const token = localStorage.getItem('pos-token'); 
-    try {
-      const config = {
-        headers: { 'Content-Type': 'application/json', 'x-auth-token': token }
-      };
-      const res = await axios.get('/api/users', config); 
-      setUsers(res.data);
-      setLoading(false);
-    } catch (err) {
-      console.error('Fetch error:', err.response ? err.response.data : err.message);
-      setError(err.response ? err.response.data.msg : 'Failed to fetch users.');
-      setLoading(false);
-    }
+    const res = await axios.get("http://localhost:5000/api/users");
+    setUsers(res.data);
   };
 
-  useEffect(() => { fetchUsers(); }, []); 
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-  if (loading) return <div className="text-center p-8">Loading users...</div>;
-  if (error) return <div className="text-red-600 p-8">Error: {error}</div>;
+  // ================= HANDLERS =================
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const handleAddUser = async () => {
+    await axios.post("http://localhost:5000/api/users", formData);
+    setNewRow(false);
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      universityId: "",
+      role: "staffMember",
+      department: "General",
+    });
+    fetchUsers();
+  };
+
+  const handleUpdateUser = async (id) => {
+    await axios.put(`http://localhost:5000/api/users/${id}`, formData);
+    setEditRowId(null);
+    fetchUsers();
+  };
+
+  const handleDeleteUser = async (id) => {
+    if (!window.confirm("Delete this user?")) return;
+    await axios.delete(`http://localhost:5000/api/users/${id}`);
+    fetchUsers();
+  };
+
+  // ================= SEARCH =================
+  const filteredUsers = users.filter((u) =>
+    [u.name, u.universityId, u.role, u.department]
+      .join(" ")
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
+  // ================= SORT =================
+  const sortedUsers = [...filteredUsers].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    const aVal = a[sortConfig.key]?.toString().toLowerCase();
+    const bVal = b[sortConfig.key]?.toString().toLowerCase();
+    if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
+    if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  const requestSort = (key) => {
+    setSortConfig({
+      key,
+      direction:
+        sortConfig.key === key && sortConfig.direction === "asc"
+          ? "desc"
+          : "asc",
+    });
+  };
+
+  // ================= UI =================
   return (
-    <div>
-      <div className="px-7 flex justify-between items-center mb-12 mt-6">
-          <div>
-            <h1 className="text-xl font-bold">Dashboard</h1>
-            <p className="text-sm text-gray-600">
-              <span className="text-green-600 font-semibold">Monday</span> · 02 March 2025
-            </p>
-          </div>
+    <div className="max-w-7xl px-4">
+      <Navbar />
 
-          <div className="flex items-center gap-6">
-            <FaCalendarCheck className="text-xl text-gray-600 cursor-pointer" />
-            <FaRing className="text-xl text-gray-600 cursor-pointer" />
+      <h2 className="text-2xl font-bold mb-4 bg-green-200 p-4 rounded-xl text-green-700">
+        User Management
+      </h2>
 
-            <div className="flex items-center gap-2 cursor-pointer">
-              <span className="bg-green-600 text-white px-3 py-1 rounded-lg font-bold">
-                BY
-              </span>
-              <span className="font-medium">Beneyam Yohannes</span>
-              <FaArrowDown className="text-gray-600" />
-            </div>
-          </div>
-        </div>
-
-      <div className='bg-green-200 text-gray-700 flex justify-between p-3 m-6 rounded-lg'>
-        <div className='flex align-center just'>
-            <h1 className='font-bold text-xl'>User Administration</h1>
-        </div>
-        <div className='flex gap-4 font-semibold'>
-          {['view', 'add', 'update', 'delete'].map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded ${activeTab === tab ? 'bg-white text-green-600 font-bold' : 'hover:bg-green-700/80'}`}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </div>
+      {/* Search + New */}
+      <div className="flex justify-between mb-4">
+        <input
+          type="text"
+          placeholder="Search by name, ID, role, department..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border px-4 py-2 rounded w-1/2"
+        />
+        <button
+          onClick={() => setNewRow(true)}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          New User
+        </button>
       </div>
 
-      <div className="m-6">
-        {activeTab === 'view' && <ViewUser users={users} />}
-        {activeTab === 'add' && <AddUser />}
-        {activeTab === 'update' && <UpdateUser />}
-        {activeTab === 'delete' && <DeleteUser />}
+      {/* Table */}
+      <div className="overflow-x-auto rounded-xl">
+        <table className="w-full">
+          <thead className="bg-gray-700 text-white">
+            <tr>
+              <th className="px-4 py-2">#</th>
+              <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("name")}>Name</th>
+              <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("email")}>Email</th>
+              <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("universityId")}>ID</th>
+              <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("role")}>Role</th>
+              <th className="px-4 py-2 cursor-pointer" onClick={() => requestSort("department")}>Department</th>
+              <th className="px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {/* ADD ROW */}
+            {newRow && (
+              <tr className="bg-green-50">
+                <td className="px-4 py-2">—</td>
+                <td className="px-4 py-2">
+                  <input name="name" onChange={handleChange} className="w-full border px-2 py-1 rounded" />
+                </td>
+                <td className="px-4 py-2">
+                  <input name="email" onChange={handleChange} className="w-full border px-2 py-1 rounded" />
+                </td>
+                <td className="px-4 py-2">
+                  <input name="universityId" onChange={handleChange} className="w-full border px-2 py-1 rounded" />
+                </td>
+                <td className="px-4 py-2">
+                  <select name="role" onChange={handleChange} className="w-full border px-2 py-1 rounded">
+                    {roles.map((r) => <option key={r}>{r}</option>)}
+                  </select>
+                </td>
+                <td className="px-4 py-2">
+                  <select name="department" onChange={handleChange} className="w-full border px-2 py-1 rounded">
+                    {departments.map((d) => <option key={d}>{d}</option>)}
+                  </select>
+                </td>
+                <td className="px-4 py-2 space-x-2">
+                  <button onClick={handleAddUser} className="bg-green-500 text-white px-3 py-1 rounded">Save</button>
+                  <button onClick={() => setNewRow(false)} className="bg-gray-400 text-white px-3 py-1 rounded">Cancel</button>
+                </td>
+              </tr>
+            )}
+
+            {/* USERS */}
+            {sortedUsers.map((u, index) => (
+              <tr key={u._id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 font-semibold">{index + 1}</td>
+
+                {editRowId === u._id ? (
+                  <>
+                    <td className="px-4 py-2"><input value={formData.name} name="name" onChange={handleChange} className="w-full border px-2 py-1 rounded" /></td>
+                    <td className="px-4 py-2"><input value={formData.email} name="email" onChange={handleChange} className="w-full border px-2 py-1 rounded" /></td>
+                    <td className="px-4 py-2"><input value={formData.universityId} name="universityId" onChange={handleChange} className="w-full border px-2 py-1 rounded" /></td>
+                    <td className="px-4 py-2">
+                      <select value={formData.role} name="role" onChange={handleChange} className="w-full border px-2 py-1 rounded">
+                        {roles.map((r) => <option key={r}>{r}</option>)}
+                      </select>
+                    </td>
+                    <td className="px-4 py-2">
+                      <select value={formData.department} name="department" onChange={handleChange} className="w-full border px-2 py-1 rounded">
+                        {departments.map((d) => <option key={d}>{d}</option>)}
+                      </select>
+                    </td>
+                    <td className="px-4 py-2 space-x-2">
+                      <button onClick={() => handleUpdateUser(u._id)} className="bg-green-500 text-white px-3 py-1 rounded">Save</button>
+                      <button onClick={() => setEditRowId(null)} className="bg-gray-400 text-white px-3 py-1 rounded">Cancel</button>
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td className="px-4 py-2">{u.name}</td>
+                    <td className="px-4 py-2">{u.email}</td>
+                    <td className="px-4 py-2">{u.universityId}</td>
+                    <td className="px-4 py-2">{u.role}</td>
+                    <td className="px-4 py-2">{u.department}</td>
+                    <td className="px-4 flex py-2 space-x-2">
+                      <button
+                        onClick={() => {
+                          setEditRowId(u._id);
+                          setFormData(u);
+                        }}
+                        className="bg-yellow-500 text-white px-5 py-1 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteUser(u._id)}
+                        className="bg-red-500 text-white px-2 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+
+      <p className="mt-4 text-sm text-gray-600">
+        Showing <b>{sortedUsers.length}</b> of <b>{users.length}</b> users
+      </p>
     </div>
   );
 };
