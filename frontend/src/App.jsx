@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dahsboard.jsx"
 import UserManagement from "./pages/adminPage/UserManagement.jsx";
 import StaffMember from "./pages/staffMembers/Sidebar.jsx";
 import StoreManager from "./pages/store Manager/StoreManager.jsx";
+import StoreManagerDashboard from "./pages/store Manager/StoreManagerDashboard.jsx";
 import StaffDashboard from "./pages/staffMembers/Dashboard.jsx"
 import Home from "./pages/staffMembers/Home.jsx"
 import About from "./pages/staffMembers/About.jsx"
@@ -14,8 +15,11 @@ import ContactUs from "./pages/staffMembers/ContactUs.jsx";
 import Logout from "./components/Logout.jsx";
 import Request from "./pages/staffMembers/Request.jsx";
 import Product from "./pages/store Manager/Product.jsx";
+import ProductDepartment from "./pages/departmentHead/ProductDepartment.jsx";
 import Catagory from "./pages/store Manager/Category.jsx";
+import StoreManagerRequests from "./pages/store Manager/RequestStore.jsx";
 import ProtectedRoutes from "../utils/ProtectedRoutes.jsx";
+import RequestDepartmentView from "./pages/departmentHead/RequestDepartment.jsx";
 function App() {
  
   return (
@@ -30,6 +34,10 @@ function App() {
                 <Dashboard />
               </ProtectedRoutes>}>
               <Route
+                path="dashboard"
+                element={<StoreManagerDashboard />}
+              />
+              <Route
                 path="categories"
                 element={<Catagory />}
               />
@@ -39,7 +47,7 @@ function App() {
               />
               <Route
                 path="requests"
-                element={<h1>request</h1>}
+                element={<StoreManagerRequests />}
               />
               <Route
                 path="users"
@@ -103,6 +111,11 @@ function App() {
               </ProtectedRoutes>}>
 
               <Route
+                path="dashboard"
+                element={<StoreManagerDashboard />}
+              />
+              
+              <Route
                 path="categories"
                 element={<Catagory />}
               />
@@ -112,7 +125,7 @@ function App() {
               />
               <Route
                 path="requests"
-                element={<h1>requests</h1>}
+                element={<StoreManagerRequests />}
               />
               <Route
                 path="profile"
@@ -134,11 +147,11 @@ function App() {
               </ProtectedRoutes>}>
               <Route
                 path="products"
-                element={<h1>product</h1>}
+                element={<ProductDepartment />}
               />
               <Route
                 path="requests"
-                element={<h1>requests</h1>}
+                element={<RequestDepartmentView />}
               />
               <Route
                 path="profile"

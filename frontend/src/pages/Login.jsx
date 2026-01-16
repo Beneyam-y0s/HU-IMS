@@ -20,7 +20,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/login", {
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
         email,
         password,
       });
@@ -52,7 +52,7 @@ const Login = () => {
 
   return (
     <div className="flex w-full h-screen ">
-      {/* Left 40% with image + green overlay */}
+      
       <div className="w-[40%] h-screen relative flex flex-col pt-[18%] p-7 align-center ">
         <img
           src={bgImg}

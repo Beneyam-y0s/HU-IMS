@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../context/authContext.jsx";
+import Navbar from "../../components/Navbar.jsx";
 
 const Request = () => {
   const { user } = useAuth();
@@ -28,11 +29,11 @@ const Request = () => {
     setError(null);
 
     try {
-      // Map context data + form data to the backend payload
+      
       const payload = {
         name: user?.name,
         email: user?.email,
-        universityID: user?.universityID, // Match capital "ID" from backend
+        universityID: user?.universityID, 
         department: user?.department,
         category: formData.category.toLowerCase(),
         specificItem: formData.item,
@@ -51,13 +52,14 @@ const Request = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-green-700">Create Request</h2>
+    <div className="px-4 ">
+      <Navbar />
+      <h2 className="text-2xl font-bold mb-4 bg-green-200 p-4 rounded-lg text-green-700">Create Request</h2>
 
       {message && <div className="bg-green-100 text-green-800 p-2 mb-4 rounded">{message}</div>}
       {error && <div className="bg-red-100 text-red-800 p-2 mb-4 rounded">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 p-4 rounded-lg mx-16 bg-white">
         {/* Read-Only User Info from Context */}
         <div>
           <label className="block mb-1 font-medium">Requestor Name</label>

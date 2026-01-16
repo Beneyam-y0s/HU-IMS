@@ -2,19 +2,21 @@ import mongoose from "mongoose";
 
 const requestSchema = new mongoose.Schema(
   {
-
     name: {
       type: String,
       required: true,
     },
+
     email: {
       type: String,
       required: true,
     },
+
     department: {
       type: String,
-    //   required: true,
+      required: true,
     },
+
     category: {
       type: String,
       enum: ["tech", "furniture", "other"],
@@ -31,6 +33,12 @@ const requestSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+    },
+
+    status: {
+      type: String,
+      enum: ["pending", "approved", "not approved"],
+      default: "pending",
     },
   },
   {

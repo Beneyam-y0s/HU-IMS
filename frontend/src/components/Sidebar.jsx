@@ -23,9 +23,10 @@ const Sidebar = () => {
   const basePath = roleBasePath[user.role];
 
   const menuItems = [
+    
     {
       name: "Dashboard",
-      path: "/dashboard",
+      path: "/dashboard/dashboard",
       icon: <FaHome />,
       roles: ["admin", "storeManager", "departmentHead", "universityAuth"],
       isParent: true,

@@ -50,7 +50,7 @@ const Profile = () => {
               <input
                 type="text"
                 name="name"
-                
+                value={user.name}
                 required
                 className="w-full border px-3 py-2 rounded"
               />
@@ -61,18 +61,7 @@ const Profile = () => {
               <input
                 type="email"
                 name="email"
-                
-                required
-                className="w-full border px-3 py-2 rounded"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-medium">Password</label>
-              <input
-                type="password"
-                name="password"
-                
+                value={user.email}
                 required
                 className="w-full border px-3 py-2 rounded"
               />
@@ -83,7 +72,7 @@ const Profile = () => {
               <input
                 type="text"
                 name="address"
-                
+                value={user.address}
                 className="w-full border px-3 py-2 rounded"
               />
             </div>
@@ -93,37 +82,38 @@ const Profile = () => {
               <input
                 type="text"
                 name="universityId"
-                
+                value={user.universityId}
                 className="w-full border px-3 py-2 rounded"
               />
             </div>
 
             <div>
               <label className="block mb-1 font-medium">Role</label>
-              <select
+              <input
                 name="role"
-                
+                value={user.role}
                 className="w-full border px-3 py-2 rounded"
               >
                 
-              </select>
+              </input>
             </div>
 
             <div>
               <label className="block mb-1 font-medium">Department</label>
-              <select
+              <input
                 name="department"
+                value={user.department}
                 className="w-full border px-3 py-2 rounded"
               >
                 
-              </select>
+              </input>
             </div>
 
             <button
               type="submit"
               className="bg-green-700/90 text-white px-4 py-2 rounded hover:bg-green-700 col-span-2"
             >
-              Update Profile
+              Verified Account
             </button>
           </form>
       </div>
